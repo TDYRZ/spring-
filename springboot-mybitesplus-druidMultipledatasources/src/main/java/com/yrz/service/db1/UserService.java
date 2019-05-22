@@ -16,4 +16,5 @@ import java.util.List;
 public interface UserService extends IService<User> {
     List<User> getUserList();
     BigDecimal getOrderPriceByUserId(Integer userId);
+    User getUserByName(String name);
 }

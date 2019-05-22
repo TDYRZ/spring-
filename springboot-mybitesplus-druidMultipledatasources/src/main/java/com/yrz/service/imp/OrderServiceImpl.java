@@ -32,4 +32,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     public BigDecimal getOrderPriceByUserId(Integer userId) {
         return orderMapper.getPriceByUserId(userId);
     }
+    
+    
 }
