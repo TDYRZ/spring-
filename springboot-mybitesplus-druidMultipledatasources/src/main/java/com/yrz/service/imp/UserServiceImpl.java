@@ -9,6 +9,7 @@ import com.yrz.model.User;
 import com.yrz.service.db1.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,8 +26,11 @@ import javax.annotation.Resource;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+	 private static final String DEMO_CACHE_NAME = "users";
 	@Resource
 	private OrderMapper orderMapper;
+	@Resource
+	private UserMapper userMapper;
 	@Override
 	public List<User> getUserList() {
 		return  selectList(null);
@@ -36,6 +40,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	@Override
 	public BigDecimal getOrderPriceByUserId(Integer userId) {
 		return orderMapper.getPriceByUserId(userId);
+	}
+
+	@Override
+	@Cacheable(value=DEMO_CACHE_NAME)
+	public User getUserByName(String name) {
+		 //若找不到缓存将打印出提示语句
+        System.err.println("没有走缓存！"+name);
+		return userMapper.getUserByName(name);
 	}
 
  
